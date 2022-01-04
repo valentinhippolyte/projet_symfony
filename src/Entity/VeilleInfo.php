@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VeilleInfoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class VeilleInfo
      * @ORM\Column(type="integer")
      */
     private $note;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="veilleInfos")
+     */
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,30 @@ class VeilleInfo
     public function setNote(int $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|user[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(user $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(user $user): self
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=VeilleInfo::class, mappedBy="user")
+     */
+    private $veilleInfos;
+
+    public function __construct()
+    {
+        $this->veilleInfos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,6 +137,33 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VeilleInfo[]
+     */
+    public function getVeilleInfos(): Collection
+    {
+        return $this->veilleInfos;
+    }
+
+    public function addVeilleInfo(VeilleInfo $veilleInfo): self
+    {
+        if (!$this->veilleInfos->contains($veilleInfo)) {
+            $this->veilleInfos[] = $veilleInfo;
+            $veilleInfo->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVeilleInfo(VeilleInfo $veilleInfo): self
+    {
+        if ($this->veilleInfos->removeElement($veilleInfo)) {
+            $veilleInfo->removeUser($this);
+        }
 
         return $this;
     }
