@@ -15,7 +15,6 @@ class VeilleInfoType extends AbstractType
             ->add('titre')
             ->add('lien')
             ->add('description')
-            ->add('note')
         ;
     }
 

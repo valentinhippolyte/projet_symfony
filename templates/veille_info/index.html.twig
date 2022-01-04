@@ -27,6 +27,9 @@
                 <td>
                     <a href="{{ path('veille_info_show', {'id': veille_info.id}) }}">show</a>
                     <a href="{{ path('veille_info_edit', {'id': veille_info.id}) }}">edit</a>
+
+                    <a href="{{ path('veille_vote', {'id': veille_info.id,'operation' : '-'})  }}">-</a>
+                    <a href="{{ path('veille_vote', {'id': veille_info.id,'operation' : '+'})  }}">+</a>
                 </td>
             </tr>
         {% else %}

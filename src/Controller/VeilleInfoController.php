@@ -30,6 +30,7 @@ class VeilleInfoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $veilleInfo->setNote(0);
             $entityManager->persist($veilleInfo);
             $entityManager->flush();
 
@@ -48,6 +49,26 @@ class VeilleInfoController extends AbstractController
         return $this->render('veille_info/show.html.twig', [
             'veille_info' => $veilleInfo,
         ]);
+    }
+    #[Route('/vote/{id}/{operation}', name: 'veille_vote', methods: ['GET'])]
+    public function vote($id, VeilleInfoRepository $repo,$operation, EntityManagerInterface $entityManager): Response
+    {
+        $veilleInfo = $repo->find($id);
+        if($veilleInfo->getUser()->contains($this->getUser())){
+            return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $note = $veilleInfo->getNote();
+            if($operation ="+"){
+                $note++;
+            }elseif($operation ="-"){
+                $note--;
+            }
+            $veilleInfo->setNote($note);
+            $veilleInfo->addUser($this->getUser());
+            $entityManager->persist($veilleInfo);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/edit', name: 'veille_info_edit', methods: ['GET', 'POST'])]
