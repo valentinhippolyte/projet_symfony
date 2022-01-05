@@ -3,20 +3,46 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<style>
+.page-contenu{
+    max-width: 300px;
+    margin-right: auto;
+    margin-left:auto;
+    margin-top: 130px;
+    padding: 10px;
+    border: solid 3px #3A57A6;
+    border-radius: 10px;
+    
+}
+
+hr{
+    max-width:100px;
+    height: 1px;
+}
+label{
+    margin-right:5px;
+}
+.form-valid{
+    max-width: 85px;
+    margin-left: 70%;
+}
+</style>
+
     {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {{ flashError }}
     {% endfor %}
+<div class="page-contenu">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Inscription</h1>
+    <hr>
+    <div class="d-flex justify-content-center div-form">
+        {{ form_start(registrationForm) }}
+             <strong>{{ form_row(registrationForm.username,{'attr':{'class':'form-control'}},{label:'email'}) }}</strong>
+        
+            <strong>{{ form_row(registrationForm.plainPassword,{'attr':{'class':'form-control'}}, {label: 'Password'}) }}</strong>
+            <strong>{{ form_row(registrationForm.agreeTerms)}}</strong>
 
-    <h1>Register</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username,{
-        label:'email'}) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <button type="submit" class="btn btn-primary form-valid">Valider</button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
 {% endblock %}
