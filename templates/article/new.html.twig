@@ -3,9 +3,53 @@
 {% block title %}New Article{% endblock %}
 
 {% block body %}
-    <h1>Create new Article</h1>
+<style>
+.page-contenu{
+    max-width: 300px;
+    margin-right: auto;
+    margin-left:auto;
+    margin-top: 80px;
+    padding: 10px;
+    border: solid 3px #3A57A6;
+    border-radius: 10px;
+    
+}
 
+hr{
+    max-width:100px;
+    height: 1px;
+}
+label{
+    font-weight:bold;
+}
+
+.btn-success{
+    margin-top:10px;
+    max-width:100px;
+    margin-left:60%;
+}
+
+.btn-danger{
+    margin-top: -65px;
+    margin-left: 10px;
+}
+
+div{
+    display:flex;
+    flex-direction:column;
+
+}
+
+#article_date_create{
+       display:inline;
+}
+</style>
+
+    <h1 class="h3 mb-3 font-weight-normal text-center">Création d'un nouvel article</h1>
+    <hr class="hr">
+<div class="page-contenu">
     {{ include('article/_form.html.twig') }}
 
-    <a href="{{ path('article_index') }}">back to list</a>
+    <a href="{{ path('article_index') }}"><button class="btn btn-danger">Annuler</button></a>
+    </div>
 {% endblock %}

@@ -1,13 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Article{% endblock %}
+{% block title %}Edit Article
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Article</h1>
 
-    {{ include('article/_form.html.twig', {'button_label': 'sauvegarder'}) }}
+	<style>
+		.page-contenu {
+			max-width: 300px;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 80px;
+			padding: 10px;
+			border: solid 3px #3A57A6;
+			border-radius: 10px;
 
-    <a href="{{ path('article_index') }}">Revenir à la liste</a>
+		}
 
-    {{ include('article/_delete_form.html.twig') }}
+		hr {
+			max-width: 100px;
+			height: 1px;
+		}
+		label {
+			font-weight: bold;
+		}
+
+		.btn-success {
+			margin-top: 10px;
+			max-width: 100px;
+			margin-left: 60%;
+		}
+
+		.btn-danger {
+			margin-top: -65px;
+			margin-left: 10px;
+		}
+
+
+		div {
+			display: flex;
+			flex-direction: column;
+
+		}
+
+		#article_date_create {
+			display: inline;
+		}
+	</style>
+
+	<h1 class="h3 mb-3 font-weight-normal text-center">Modification d'article</h1>
+	<hr class="hr">
+	<div class="page-contenu">
+		{{ include('article/_form.html.twig', {'button_label': 'Confirmer'}) }}
+
+		<a href="{{ path('article_index') }}">
+			<button class="btn btn-danger">Retour</button>
+		</a>
+	</div>
 {% endblock %}
