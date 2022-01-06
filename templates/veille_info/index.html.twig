@@ -1,16 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}VeilleInfo index{% endblock %}
+{% block title %}Liste des liens{% endblock %}
 
 {% block body %}
 <style>
 h1{
     text-align:center;
 }
+
+.hr{
+    max-width: 150px;
+    height: 1px;
+    background-color: #CCCCCC;
+}
 table{
   border-collapse: collapse;
   margin-left:auto;
   margin-right:auto;
+  max-width: 95%;
 }
 
 td,th
@@ -51,8 +58,10 @@ a{
 }
 
 </style>
-<div id="veilleinfo">
+
     <h1>Veille informatique</h1>
+    <hr class="hr">
+
     <table class="table">
         <thead>
             <tr>
@@ -80,12 +89,15 @@ a{
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">Aucune donnée</td>
+                <td colspan="6"> Nous n'avons rien à vous proposer :/</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <div class="button"><button type="button"><a href="{{ path('veille_info_new') }}">Ajouter</a></button></div>
+  {% if is_granted('ROLE_ADMIN')%}
+    <div class="button"><a href="{{ path('veille_info_new') }}"><button type="button" class="btn btn-success">Ajouter</button></a></div>
+    {% endif %}
+
 </div>
 {% endblock %}

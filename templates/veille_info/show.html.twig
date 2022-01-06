@@ -1,32 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}VeilleInfo{% endblock %}
+{% block title %}Veille Info
+{% endblock %}
 
 {% block body %}
-<style>
-    .btn_rouge{
-        color: #fff;
-        background-color: red;
-        padding: 6px 6px;
-        border-radius: 10px;
-        margin-left:auto;
-        margin-right:auto;
-}
-</style>
+	<style>
+		.form-action {
+			display: inline;
+		}
+		.bouton-suppr {
+			margin-top: -38px;
+			margin-left: 167px;
 
-    <h1>{{ veille_info.titre }}</h1>
-    
-    <p>{{ veille_info.description}}<p>
-        <br>
-    <p>Lien pour découvrir l'article : <a href="{{ veille_info.lien }}">ici</a><p>
-        <br>
-    <p>Notation : {{ veille_info.note }}<p>
-            
+		}
+
+		.page-contenu {
+			margin: 15px;
+
+		}
+	</style>
+
+<div class="page-contenu">
+		<h1 class="h3 mb-3 font-weight-normal text-center">Aperçu de ({{ veille_info.titre }})</h1>
 
 
-    <a href="{{ path('veille_info_edit', {'id': veille_info.id}) }}"><i class="fas fa-edit"></i></a>
+		<table class="table">
+			<tbody>
+			<tr>
+					<th>Titre</th>
+					<td>{{ veille_info.titre }}</td>
+				</tr>
+				<tr>
+					<th>Lien</th>
+					<td><a href="{{ veille_info.lien }}">{{ veille_info.lien }}</a></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td>{{ veille_info.description }}</td>
+				</tr>
+				<tr>
+					<th>Note</th>
+					<td>{{ veille_info.note }}</td>
+				</tr>
+			</tbody>
+		</table>
 
-    {{ include('veille_info/_delete_form.html.twig') }}
-        <br>
-    <a href="{{ path('veille_info_index') }}">Revenir à la liste</a>
-{% endblock %}
+	<div class="form-action">
+			<a href="{{ path('veille_info_index') }}">
+				<button class="btn btn-success">Retour</button>
+			</a>
+
+			<a href="{{ path('veille_info_edit', {'id': veille_info.id}) }}">
+				<button class="btn btn-info">Modifier</button>
+			</a>
+
+			{{ include('veille_info/_delete_form.html.twig') }}
+		</div>
+	</div>
+	{% endblock %}
