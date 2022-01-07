@@ -71,10 +71,10 @@ class VeilleInfoController extends AbstractController
             return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
         } else {
             $note = $veilleInfo->getNote();
-            if($operation ="+"){
-                $note++;
-            }elseif($operation ="-"){
+            if($operation == "-"){
                 $note--;
+            }elseif($operation == "+"){
+                $note++;
             }
             $veilleInfo->setNote($note);
             $veilleInfo->addUser($this->getUser());
