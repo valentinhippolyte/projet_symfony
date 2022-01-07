@@ -50,11 +50,15 @@
 				<button class="btn btn-success">Retour</button>
 			</a>
 
+			{# {% if is_granted('ROLE_ADMIN')%}
 			<a href="{{ path('veille_info_edit', {'id': veille_info.id}) }}">
 				<button class="btn btn-info">Modifier</button>
 			</a>
+			{% endif %} #}
 
+			{% if is_granted('ROLE_ADMIN')%}
 			{{ include('veille_info/_delete_form.html.twig') }}
+			{% endif %}
 		</div>
 	</div>
 	{% endblock %}

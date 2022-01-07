@@ -22,6 +22,19 @@ class VeilleInfoController extends AbstractController
         ]);
     }
 
+    #[Route('/top10', name: 'veille_info_top10', methods: ['GET'])]
+    public function top10(VeilleInfoRepository $veilleInfoRepository): Response
+    {
+        return $this->render('veille_info/top10.html.twig', [
+            'veille_infos' => $veilleInfoRepository->findBy(  
+                array(),        // $where     
+                array('note' => 'DESC'),    // $orderBy
+                10,                        // $limit
+                0  
+            ),
+        ]);
+    }
+
     #[Route('/new', name: 'veille_info_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -71,27 +84,37 @@ class VeilleInfoController extends AbstractController
         return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/edit', name: 'veille_info_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, VeilleInfo $veilleInfo, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(VeilleInfoType::class, $veilleInfo);
-        $form->handleRequest($request);
+    // #[Route('/{id}/edit', name: 'veille_info_edit', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, VeilleInfo $veilleInfo, EntityManagerInterface $entityManager): Response
+    // {   
+    //     if (!$this->isGranted('ROLE_ADMIN')) {
+    //         return new Response("Vous n'avez pas le bon rôle, trace ta route");
+    //         return $this->redirectToRoute('article_index');
+    //     }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    //     $form = $this->createForm(VeilleInfoType::class, $veilleInfo);
+    //     $form->handleRequest($request);
 
-            return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
 
-        return $this->render('veille_info/edit.html.twig', [
-            'veille_info' => $veilleInfo,
-            'form' => $form->createView(),
-        ]);
-    }
+    //         return $this->redirectToRoute('veille_info_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('veille_info/edit.html.twig', [
+    //         'veille_info' => $veilleInfo,
+    //         'form' => $form->createView(),
+    //     ]);
+   // }
 
     #[Route('/{id}', name: 'veille_info_delete', methods: ['POST'])]
     public function delete(Request $request, VeilleInfo $veilleInfo, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new Response("Vous n'avez pas le bon rôle, trace ta route");
+            return $this->redirectToRoute('article_index');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$veilleInfo->getId(), $request->request->get('_token'))) {
             $entityManager->remove($veilleInfo);
             $entityManager->flush();
