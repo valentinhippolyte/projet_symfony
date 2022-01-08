@@ -81,13 +81,6 @@ a{
                 <td>{{ veille_info.note }}</td>
                 <td>
                     <a href="{{ path('veille_info_show', {'id': veille_info.id}) }}"><i class="fas fa-eye"></i></a>
-
-                    {# {% if is_granted('ROLE_ADMIN')%}
-                    <a href="{{ path('veille_info_edit', {'id': veille_info.id}) }}"><i class="fas fa-edit"></i></a>
-                    {% endif %} #}
-
-                    <a href="{{ path('veille_vote', {'id': veille_info.id,'operation' : '-'})  }}"><i class="fas fa-minus"></i></a>
-                    <a href="{{ path('veille_vote', {'id': veille_info.id,'operation' : '+'})  }}"><i class="fas fa-plus"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -97,8 +90,6 @@ a{
         {% endfor %}
         </tbody>
     </table>
-
-    <div class="button"><a href="{{ path('veille_info_new') }}"><button type="button" class="btn btn-success">Ajouter</button></a></div>
 
 </div>
 {% endblock %}
